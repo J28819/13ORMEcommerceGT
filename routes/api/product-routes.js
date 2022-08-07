@@ -5,19 +5,25 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // get all products
 router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+  Product.findAll( {include: [{model: Category},{model: Tag}]})
+  .then((data) => res.json(data))
+  .catch((error) => res.json(error))
 });
 
 // get one product
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
+  Product.findByPk(req.params.id, { include: [{ model: Category}] })
+  .then((data) => res.json(data))
+
 });
 
 // create new product
 router.post('/', (req, res) => {
+  console.log(req.body)
   /* req.body should look like this...
+  
     {
       product_name: "Basketball",
       price: 200.00,
@@ -91,6 +97,17 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+  Product.destroy({where: {id: req.params.id} })
+  .then((value) => {
+   
+    res.status(200).json({"Message": `"Product with Id: ${req.params.id} was removed"`,
+                          "Result": req.body.product_name 
+                           });
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(400).json(err);
+  });
 });
 
 module.exports = router;
