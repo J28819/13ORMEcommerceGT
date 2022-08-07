@@ -52,7 +52,7 @@ THEN I am able to successfully create, update, and delete data in my database
 ```
 
 ## Screenshoots
-![My animated logo](./public/img/overview.png)
+![My animated logo](./public/img/Overview.png)
 
 
 ## Google Drive Video Screensify
